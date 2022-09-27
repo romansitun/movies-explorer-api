@@ -1,14 +1,10 @@
-const { ERROR_CODE_SERVER } = require('../utils/constants');
-
-// обработчик ошибок
-const handleErrors = (err, req, res, next) => {
-  const { statusCode = ERROR_CODE_SERVER, message } = err;
+const handleErrors = (e, req, res, next) => {
+  const { statusCode = 500, message } = e;
   res.status(statusCode)
     .send({
-      message: statusCode === ERROR_CODE_SERVER
-        ? 'На сервере произошла ошибка'
-        : message,
+      message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
     });
+
   next();
 };
 
