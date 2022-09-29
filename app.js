@@ -8,8 +8,9 @@ const router = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/error-handler');
 const corsOption = require('./middlewares/cors');
+const { MONGO_URL } = require('./config');
 
-const { PORT = 3000, MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 

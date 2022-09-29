@@ -30,9 +30,9 @@ const movieSchema = new mongoose.Schema({
       message: 'Неверный формат ссылки на изображение',
     },
   },
-  trailer: {
+  trailerLink: {
     type: String,
-    required: [true, 'поле "trailer" не может быть пустым'],
+    required: [true, 'поле "trailerLink" не может быть пустым'],
     validate: {
       validator: (v) => validator.isURL(v),
       message: 'Неверный формат ссылки на трейлер',

@@ -22,7 +22,7 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -36,7 +36,7 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -47,7 +47,7 @@ const createMovie = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
-      } else if (err.name === 'MongoError' && err.code === 11000) {
+      } else if (err.code === 11000) {
         next(new ItExistError('Данный фильм уже сохранен в избранном'));
       } else {
         next(err);
@@ -59,7 +59,6 @@ const createMovie = (req, res, next) => {
 const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .orFail(new NotFoundError('Фильм не найден'))
-    // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie.owner.equals(req.user._id)) {
         next(new NoRightsError('Недостаточно прав для удаления'));
@@ -67,6 +66,7 @@ const deleteMovie = (req, res, next) => {
         return movie.remove()
           .then(() => res.send({ message: `Фильм  '${movie.nameRU}' удален из избранного` }));
       }
+      return null;
     })
     .catch((err) => {
       if (err.name === 'CastError') {
