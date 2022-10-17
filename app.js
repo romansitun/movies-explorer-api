@@ -34,4 +34,11 @@ app.use(errors());
 
 app.use(handleErrors);
 
+app.use((err, req, res) => {
+  res.locals.error = err;
+  const status = err.status || 500;
+  res.status(status);
+  res.render('error');
+});
+
 app.listen(PORT, () => PORT);
